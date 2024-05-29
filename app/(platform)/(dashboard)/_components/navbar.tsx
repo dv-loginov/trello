@@ -33,16 +33,16 @@ export const Navbar = () => {
                         }
                     }}
                 />
-                <UserButton 
-                afterSignOutUrl="/"
-                appearance={{
-                    elements: {
-                        avatarBox: {
-                            height: 30,
-                            width: 30,
+                <UserButton
+                    afterSignOutUrl="/"
+                    appearance={{
+                        elements: {
+                            avatarBox: {
+                                height: 30,
+                                width: 30,
+                            }
                         }
-                    }
-                }}
+                    }}
                 />
             </div>
         </nav>);

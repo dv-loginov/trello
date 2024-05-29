@@ -1,17 +1,13 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher, redirectToSignIn } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-// const isProtectedRoute = createRouteMatcher(['/protected(.*)']);
+const isPublicRoute = createRouteMatcher(['/', '/sign-in(.*)', '/sign-up(.*)']);
 
-export default clerkMiddleware((auth, req) => {
-  // Restrict admin route to users with specific role
-  // if (isAdminRoute(req)) auth().protect({ role: 'org:admin' });
-
-  // Restrict dashboard routes to signed in users
-  // if (isProtectedRoute(req)) auth().protect();
-
-  //TODO 1.58 разобраться с маршрутами
-
-});
+export default clerkMiddleware((auth, request) => {
+  if (!isPublicRoute(request)) {
+    auth().protect();
+  }
+}, { debug: true });
 
 export const config = {
   matcher: ["/((?!.+.[w]+$|_next).*)", "/", "/(api|trpc)(.*)"],

@@ -7,16 +7,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default:siteConfig.name,
+    default: siteConfig.name,
     template: `%s | $(siteConfig.name)`,
   },
   description: siteConfig.description,
-  icons: [
-    {
-      url: "/logo.png",
-      href: "/logo.png"
-    }
-  ]
 };
 
 export default function RootLayout({
@@ -26,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
+      <head>
+        <link rel='icon' href='logo.png' sizes='any' type="image/png"/>
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
