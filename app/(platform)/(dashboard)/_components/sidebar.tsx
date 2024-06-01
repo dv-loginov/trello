@@ -60,7 +60,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
         <>
             <div className="font-medium text-xs flex items-center mb-1">
                 <span className="pl-4">
-                    Конторка
+                    Пространство
                 </span>
                 <Button
                     asChild
