@@ -39,22 +39,22 @@ export const NavItem = ({
 
     const routes = [
         {
-            label: "Boards",
+            label: "Доска",
             icon: <Layout className="h-4 w-4 mr-2" />,
             href: `/organization/${organization.id}`,
         },
         {
-            label: "Activity",
+            label: "Активность",
             icon: <Activity className="h-4 w-4 mr-2" />,
             href: `/organization/${organization.id}/activity`,
         },
         {
-            label: "Settings",
+            label: "Настройки",
             icon: <Settings className="h-4 w-4 mr-2" />,
             href: `/organization/${organization.id}/settings`,
         },
         {
-            label: "Billing",
+            label: "Счета",
             icon: <CreditCard className="h-4 w-4 mr-2" />,
             href: `/organization/${organization.id}/billing`,
         }
@@ -93,7 +93,7 @@ export const NavItem = ({
                         key={route.href}
                         size="sm"
                         onClick={() => onClick(route.href)}
-                        className={cn("w-full font-normal justyfy-start pl-10 mb-1",
+                        className={cn("w-full font-normal justify-start pl-10 mb-1",
                             pathname===route.href && "bg-sky-500/10 text-sky-700"
                         )}
                         variant="ghost"
