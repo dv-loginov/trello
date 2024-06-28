@@ -1,18 +1,18 @@
-import { deleteBoard } from "@/actions/delete-board";
-import { Button } from "@/components/ui/button";
+import { deleteBoard } from '@/actions/delete-board';
+import { FormDelete } from './form-delete';
 
 interface BoardProps {
-    title: string;
-    id: string;
+  title: string;
+  id: string;
 }
 
 export const Board = ({ title, id }: BoardProps) => {
-    const deleteBoardWithId = deleteBoard.bind(null, id);
+  const deleteBoardWithId = deleteBoard.bind(null, id);
 
-    return (
-        <form action={deleteBoardWithId} className="flex items-center gap-x-2">
-            <p className="">Доска: {title}</p>
-            <Button type="submit" variant="destructive" size='sm'>Удалить</Button>
-        </form>
-    )
-}
+  return (
+    <form action={deleteBoardWithId} className="flex items-center gap-x-2">
+      <p className="">Доска: {title}</p>
+      <FormDelete />
+    </form>
+  );
+};
