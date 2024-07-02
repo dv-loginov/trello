@@ -16,25 +16,25 @@ export const useAction = <TInput, TOutput>(
   action: Action<TInput, TOutput>,
   options: UseActionOptions<TOutput> = {},
 ) => {
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors<TInput> | undefined>(undefined);
+  const [fieldErrors, setFieldErrors] = useState<
+    FieldErrors<TInput> | undefined
+  >(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [data, setData] = useState<TOutput | undefined>(undefined);
-  const [isLoading, setIsLoading]  = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const execute  =  useCallback(
-    async(input: TInput)=> {
+  const execute = useCallback(
+    async (input: TInput) => {
       setIsLoading(true);
 
-      try{
+      try {
         const result = await action(input);
 
         if (!result) {
           return;
         }
 
-        if (result.fieldErrors) {
-          setFieldErrors(result.fieldErrors);
-        }
+        setFieldErrors(result.fieldErrors);
 
         if (result.error) {
           setError(result.error);
@@ -45,11 +45,13 @@ export const useAction = <TInput, TOutput>(
           setData(result.data);
           options.onSuccess?.(result.data);
         }
-      } finally{
+      } finally {
         setIsLoading(false);
         options.onComplete?.();
       }
-    },[action, options]);
+    },
+    [action, options],
+  );
 
-    return {execute, fieldErrors, error, data, isLoading};
+  return { execute, fieldErrors, error, data, isLoading };
 };
