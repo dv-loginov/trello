@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,12 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Widget {
-//  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-// }
-
 model Board {
-  id String @id  @default(uuid())
+  id            String @id  @default(uuid())
+  orgId         String
+  title         String
+  imageId       String
+  imageThumbUrl String
+  imageFullUrl  String 
+  imageLinkHTML String
+  imageUserName String
 
-  title String
+  createAt      DateTime @default(now())
+  updateAt      DateTime @updatedAt
 }
