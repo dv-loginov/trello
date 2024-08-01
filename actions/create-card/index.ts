@@ -47,7 +47,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         description: '',
       },
     });
-
+//TODO разобраться с ошибками при отсутствии description и const card
   } catch (error) {
     return { error: 'Не удачное создание' };
   }
