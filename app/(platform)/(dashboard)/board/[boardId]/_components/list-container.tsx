@@ -7,6 +7,8 @@ import { ListItem } from './list-item';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useAction } from '@/hooks/use-action';
 import { updateListOrder } from '@/actions/update-list-order';
+import { updateCardOrder } from '@/actions/update-card-order';
+
 import { toast } from 'sonner';
 
 interface ListContainerProps {
@@ -26,8 +28,17 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
   const [orderedData, setOrderedData] = useState(data);
 
   const { execute: executeUpdateListOrder } = useAction(updateListOrder, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success(`Список перестроен`);
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+
+  const { execute: executeUpdateCardOrder } = useAction(updateCardOrder, {
+    onSuccess: () => {
+      toast.success(`Карточки перестроены`);
     },
     onError: (error) => {
       toast.error(error);
@@ -57,7 +68,7 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
         (item, index) => ({ ...item, order: index }),
       );
       setOrderedData(items);
-      executeUpdateListOrder({items, boardId});
+      executeUpdateListOrder({ items, boardId });
     }
 
     if (type === 'card') {
@@ -97,6 +108,12 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
         sourceList.cards = reorderedCards;
 
         setOrderedData(newOrderedData);
+
+        executeUpdateCardOrder({
+          boardId: boardId,
+          items: reorderedCards,
+        });
+
       } else {
         const [movedCard] = sourceList.cards.splice(source.index, 1);
 
@@ -113,6 +130,10 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
         });
 
         setOrderedData(newOrderedData);
+        executeUpdateCardOrder({
+          boardId: boardId,
+          items: destList.cards,
+        });
       }
     }
   };
