@@ -10,6 +10,9 @@ import { AlignLeft } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState, useRef, ElementRef } from 'react';
 import { useEventListener, useOnClickOutside } from 'usehooks-ts';
+import { useAction } from '@/hooks/use-action';
+import { updateCard } from '@/actions/update-card';
+import { toast } from 'sonner';
 
 interface DescriptionProps {
   data: CardWithList;
@@ -45,15 +48,28 @@ export const Description = ({ data }: DescriptionProps) => {
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
 
-  const handleSubmit = (formData: FormData) => {
+  const { execute, fieldErrors } = useAction(updateCard, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['card, data.id'],
+      });
+      toast.success(`Карточка "${data.title}" изменена`);
+    },
+    onError: (error) => {
+      toast.error(error);
+      disableEditing();
+    },
+  });
+
+  const onSubmit = (formData: FormData) => {
     const description = formData.get('description') as string;
     const boardId = params.boardId as string;
 
-    //     execute({
-    //       title,
-    //       id,
-    //       boardId,
-    //     });
+    execute({
+      id: data.id,
+      description,
+      boardId,
+    });
   };
 
   return (
@@ -62,24 +78,25 @@ export const Description = ({ data }: DescriptionProps) => {
       <div className="w-full">
         <p className="font-semibold text-neutral-700 mb-2">Описание</p>
         {isEditing ? (
-          <form action=""
-          ref={formRef}
-          className='space-y-2'
-          >
-            <FormTextarea 
-                id='description'
-                className='w-full mt-2'
-                placeholder='Есть что добавить - давай'
-                defaultValue={data.description || undefined}
+          <form action={onSubmit} ref={formRef} className="space-y-2">
+            <FormTextarea
+              id="description"
+              className="w-full mt-2"
+              placeholder="Есть что добавить - давай"
+              defaultValue={data.description || undefined}
+              errors={fieldErrors}
+              ref={textareaRef}
             />
             <div className="flex items-center gap-x-2">
-                <FormSubmit>Сохранить</FormSubmit>
-                <Button
-                    type='button'
-                    onClick={disableEditing}
-                    size='sm'
-                    variant='ghost'
-                >Отменить</Button>
+              <FormSubmit>Сохранить</FormSubmit>
+              <Button
+                type="button"
+                onClick={disableEditing}
+                size="sm"
+                variant="ghost"
+              >
+                Отменить
+              </Button>
             </div>
           </form>
         ) : (

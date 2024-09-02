@@ -1,4 +1,3 @@
-import { ListWithCards } from '@/types';
 'use server';
 
 import { auth } from '@clerk/nextjs/server';

@@ -10,11 +10,13 @@ export const UpdateCard = z.object({
       })
       .min(3, { message: 'Слишком короткое описание' }),
   ),
-  title: z
-    .string({
-      required_error: 'Название обязательно',
-      invalid_type_error: 'Некорректное название',
-    })
-    .min(3, { message: 'Название слишком короткое' }),
+  title: z.optional(
+    z
+      .string({
+        required_error: 'Название обязательно',
+        invalid_type_error: 'Некорректное название',
+      })
+      .min(3, { message: 'Название слишком короткое' }),
+  ),
   id: z.string(),
 });
