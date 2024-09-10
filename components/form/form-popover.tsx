@@ -40,7 +40,7 @@ export const FormPopover = ({
       router.push(`/board/${data.id}`);
     },
     onError: (error) => {
-      toast.error('Не удалось создать доску');
+      toast.error(`Не удалось создать доску: ${error}`);
     },
   });
 
